@@ -1,9 +1,14 @@
 import * as Blockly from 'blockly';
+import { luaGenerator } from 'blockly/lua';
+import blockContents from './blockContents';
 const demoWorkSpace = Blockly.inject(
   document.querySelector('#blocklydiv') as HTMLDivElement,
   {
     media: 'https://blockly-demo.appspot.com/static/media/',
-    toolbox: document.querySelector('#toolbox') as HTMLDivElement,
+    toolbox: {
+      kind: 'categoryToolbox',
+      contents: blockContents,
+    },
     collapse: true,
     comments: true,
     disable: true,
@@ -32,3 +37,10 @@ const demoWorkSpace = Blockly.inject(
     },
   }
 );
+function runtest() {
+  console.log(luaGenerator.workspaceToCode(demoWorkSpace));
+}
+const ns = document.createElement('button');
+ns.addEventListener('click', runtest);
+ns.textContent = 'Run';
+document.documentElement.appendChild(ns);
